@@ -94,31 +94,106 @@ import ReactDOM from 'react-dom/client';
 // 	/>
 // );
 
-class Toggle extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isToggle: true,
-		}
-		this.handldeClick = this.handldeClick.bind(this)
-	}
+// class Toggle extends React.Component {
+// 	constructor(props) {
+// 		super(props);
+// 		this.state = {
+// 			isToggle: true,
+// 		}
+// 		this.handldeClick = this.handldeClick.bind(this)
+// 	}
 
-	handldeClick() {
-		this.setState((prevState) => ({
-			isToggle: !prevState.isToggle
-		}));
-	}	
+// 	handldeClick() {
+// 		this.setState((prevState) => ({
+// 			isToggle: !prevState.isToggle
+// 		}));
+// 	}	
 
-	render() {
-		return (
-			<button onClick={this.handldeClick}>
-				{this.state.isToggle ? "Включено" : "Выключено"}
-			</button>
-		)
-	}
+// 	render() {
+// 		return (
+// 			<button onClick={this.handldeClick}>
+// 				{this.state.isToggle ? "Включено" : "Выключено"}
+// 			</button>
+// 		)
+// 	}
 
 
+// }
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(<Toggle/>);
+
+function UserGreeting(props) {
+	return <h1>С возвращением!</h1>;
 }
 
+function GuestGreeting(props) {
+	return <h1>Здравствуйте! Войдите, пожалуйста</h1>;
+}
+
+// function Greeting(props) {
+// 	const isLoggedIn = props.isLoggedIn;
+// 	if (isLoggedIn) {
+// 		return <UserGreeting />
+// 	} 
+// 	return <GuestGreeting />
+
+// }
+
+function Greeting(props) {
+	const isLoggedIn = props.isLoggedIn;
+	return isLoggedIn ? <UserGreeting /> : <GuestGreeting />
+}
+
+function LoginButton(props) {
+	return (
+		<button onClick={props.onClick}>Войти</button>
+	)
+}
+
+function LogoutButton(props) {
+		return (
+			<button onClick={props.onClick}>Выйти</button>
+		)
+}
+
+class LoginControl extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleLoginClick = this.handleLoginClick.bind(this);
+		this.handleLogoutClick = this.handleLogoutClick.bind(this);
+		this.state = {
+			isLoggedIn: false
+		}
+	}
+
+	handleLoginClick() {
+		this.setState({isLoggedIn: true})
+	}
+	handleLogoutClick() {
+		this.setState({isLoggedIn: false})
+	}
+
+	render() {
+
+		const isLoggedIn = this.state.isLoggedIn;
+		let button;
+
+		if(isLoggedIn) {
+			button = <LogoutButton onClick={this.handleLogoutClick}/>
+		} else {
+			button = <LoginButton onClick={this.handleLoginClick}/>
+		}
+
+		return (
+			<div>
+				<Greeting isLoggedIn={isLoggedIn}/>
+				{button}
+			</div>
+		)
+	}
+}
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Toggle/>);
+root.render(<LoginControl/>);
